@@ -1,0 +1,392 @@
+/* ==================================================
+   SEAT PAGE
+================================================== */
+.seat-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px 20px 120px;
+  color: #fff;
+}
+
+.seat-page h2 {
+  font-size: 30px;
+  font-weight: 900;
+  margin-bottom: 6px;
+  background: linear-gradient(90deg, #ffffff, #f84464);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.seat-page h4 {
+  font-size: 11px;
+  font-weight: 700;
+  margin: 28px 0 12px;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* ==================================================
+   DATE SELECTOR
+================================================== */
+.date-selector { margin-bottom: 10px; }
+
+.date-list {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: none;
+}
+.date-list::-webkit-scrollbar { display: none; }
+
+.date-card {
+  min-width: 72px;
+  background: #0e0e1a;
+  border-radius: 14px;
+  padding: 12px 8px;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid #1e1e30;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.date-card:hover {
+  border-color: #f84464;
+  background: #1a0e14;
+}
+
+.date-card span {
+  font-size: 10px;
+  color: #666;
+  display: block;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.date-card strong {
+  display: block;
+  font-size: 24px;
+  font-weight: 900;
+  color: #fff;
+}
+
+.date-card.active {
+  background: #f84464;
+  border-color: #f84464;
+  box-shadow: 0 6px 20px rgba(248, 68, 100, 0.45);
+}
+
+.date-card.active span { color: rgba(255,255,255,0.7); }
+.date-card.active strong { color: #fff; }
+
+/* ==================================================
+   THEATRE SELECTOR
+================================================== */
+.theatre-selector { margin-bottom: 10px; }
+
+.theatre-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 12px;
+}
+
+.theatre-card {
+  background: #0e0e1a;
+  border-radius: 14px;
+  padding: 16px 18px;
+  cursor: pointer;
+  border: 1px solid #1e1e30;
+  transition: all 0.25s ease;
+}
+
+.theatre-card:hover {
+  border-color: #f84464;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(248, 68, 100, 0.15);
+}
+
+.theatre-card.active {
+  border-color: #f84464;
+  background: #1a0e14;
+  box-shadow: 0 8px 24px rgba(248, 68, 100, 0.25);
+}
+
+.theatre-card h5 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.theatre-card p {
+  margin: 0 0 10px;
+  font-size: 12px;
+  color: #666;
+}
+
+.theatre-card .status {
+  display: inline-block;
+  font-size: 11px;
+  color: #4caf50;
+  background: rgba(76, 175, 80, 0.1);
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(76, 175, 80, 0.25);
+  font-weight: 600;
+}
+
+/* ==================================================
+   TIME SELECTOR
+================================================== */
+.time-selector { margin-bottom: 10px; }
+
+.time-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.time-btn {
+  padding: 10px 22px;
+  border-radius: 10px;
+  background: #0e0e1a;
+  border: 1px solid #1e1e30;
+  color: #888;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+}
+
+.time-btn:hover {
+  border-color: #f84464;
+  color: #fff;
+  background: #1a0e14;
+}
+
+.time-btn.active {
+  background: #f84464;
+  border-color: #f84464;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(248, 68, 100, 0.4);
+}
+
+/* ==================================================
+   SCREEN
+================================================== */
+.screen {
+  margin: 30px auto 0;
+  width: 75%;
+  text-align: center;
+  padding: 12px;
+  background: linear-gradient(180deg, #1e1e35, #12121f);
+  border-radius: 6px 6px 0 0;
+  font-size: 11px;
+  font-weight: 800;
+  color: #555;
+  letter-spacing: 5px;
+  border-top: 3px solid #f84464;
+  box-shadow:
+    0 -6px 30px rgba(248, 68, 100, 0.15),
+    0 0 60px rgba(248, 68, 100, 0.05);
+}
+
+/* ==================================================
+   SEAT LEGEND
+================================================== */
+.seat-legend {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  margin: 18px 0 16px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: #666;
+  font-weight: 600;
+}
+
+.legend-box {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+}
+
+/* ==================================================
+   SEATS CONTAINER
+================================================== */
+.seats-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  padding: 28px 20px 24px;
+  background: linear-gradient(180deg, #0a0a14, #0e0e1a);
+  border-radius: 0 0 20px 20px;
+  border: 1px solid #1a1a2a;
+  border-top: none;
+  margin-bottom: 30px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.seat-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.row-label {
+  width: 20px;
+  font-size: 11px;
+  color: #444;
+  font-weight: 800;
+  text-align: center;
+}
+
+/* ==================================================
+   SEAT BUTTON
+================================================== */
+.seat {
+  width: 32px;
+  height: 30px;
+  border-radius: 7px 7px 4px 4px;
+  background: #141420;
+  border: 1px solid #222235;
+  color: #555;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.seat::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 4px; right: 4px;
+  height: 4px;
+  background: #1a1a28;
+  border-radius: 0 0 4px 4px;
+}
+
+.seat:hover:not(:disabled) {
+  background: #2a1520;
+  border-color: #f84464;
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(248, 68, 100, 0.3);
+}
+
+.seat.selected {
+  background: #f84464;
+  border-color: #f84464;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 16px rgba(248, 68, 100, 0.5),
+    0 0 0 2px rgba(248, 68, 100, 0.2);
+  animation: seatPop 0.2s ease;
+}
+
+.seat.selected::after { background: #c0392b; }
+
+.seat:disabled {
+  opacity: 0.15;
+  cursor: not-allowed;
+  transform: none !important;
+  background: #0a0a12;
+}
+
+@keyframes seatPop {
+  0%   { transform: translateY(-2px) scale(0.85); }
+  60%  { transform: translateY(-4px) scale(1.15); }
+  100% { transform: translateY(-2px) scale(1); }
+}
+
+/* ==================================================
+   BOOKING SUMMARY
+================================================== */
+.booking-summary {
+  padding: 24px 28px;
+  background: #0a0a14;
+  border: 1px solid #1a1a2a;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.booking-summary::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #f84464, #c0392b, #f84464);
+}
+
+.booking-summary p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #111120;
+}
+
+.booking-summary p:last-of-type { border-bottom: none; }
+.booking-summary p strong { color: #ccc; font-weight: 400; }
+.booking-summary p span { color: #fff; font-weight: 600; }
+
+.confirm-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f84464, #c0392b);
+  border: none;
+  color: #fff;
+  font-weight: 800;
+  font-size: 16px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+  box-shadow: 0 6px 20px rgba(248, 68, 100, 0.4);
+}
+
+.confirm-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(248, 68, 100, 0.5);
+}
+
+.confirm-btn:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* ==================================================
+   RESPONSIVE
+================================================== */
+@media (max-width: 600px) {
+  .seat { width: 26px; height: 24px; font-size: 9px; }
+  .seat-row { gap: 5px; }
+  .theatre-list { grid-template-columns: 1fr; }
+  .screen { width: 90%; }
+  .seat-page h2 { font-size: 22px; }
+}

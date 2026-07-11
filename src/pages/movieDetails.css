@@ -1,0 +1,363 @@
+/* ==================================================
+   MOVIE DETAILS PAGE
+================================================== */
+.movie-details-page {
+  min-height: 100vh;
+  color: white;
+  background: #0a0a12;
+}
+
+/* ==================================================
+   BACKDROP HERO
+================================================== */
+.details-backdrop {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+}
+
+.details-backdrop-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  filter: brightness(0.3);
+}
+
+.details-backdrop-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(10,10,18,0.3) 0%,
+    rgba(10,10,18,0.6) 60%,
+    rgba(10,10,18,1) 100%
+  );
+}
+
+/* ==================================================
+   HERO CONTENT
+================================================== */
+.details-hero {
+  max-width: 1100px;
+  margin: -180px auto 0;
+  padding: 0 32px;
+  display: flex;
+  gap: 48px;
+  position: relative;
+  z-index: 2;
+}
+
+.details-hero-left { flex-shrink: 0; }
+
+.details-poster {
+  width: 260px;
+  border-radius: 16px;
+  box-shadow:
+    0 30px 60px rgba(0,0,0,0.8),
+    0 0 0 1px rgba(255,255,255,0.08);
+  transition: transform 0.4s ease;
+  display: block;
+}
+
+.details-poster:hover { transform: scale(1.03) translateY(-4px); }
+
+.details-hero-right {
+  flex: 1;
+  padding-top: 120px;
+}
+
+/* TITLE */
+.details-title {
+  font-size: 42px;
+  font-weight: 900;
+  margin: 0 0 16px;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+/* RATING ROW */
+.details-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.details-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(245,197,24,0.12);
+  color: #f5c518;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 16px;
+  border: 1px solid rgba(245,197,24,0.2);
+}
+
+.details-rating::before {
+  content: '⭐';
+  font-size: 14px;
+}
+
+.details-votes {
+  color: #555;
+  font-size: 13px;
+}
+
+/* META */
+.details-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.meta-dot {
+  width: 4px;
+  height: 4px;
+  background: #444;
+  border-radius: 50%;
+}
+
+.meta-item {
+  color: #aaa;
+  font-weight: 500;
+}
+
+/* TAGS */
+.details-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.tag {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #aaa;
+  transition: all 0.2s;
+  text-transform: capitalize;
+}
+
+.tag:hover {
+  background: rgba(248,68,100,0.1);
+  border-color: rgba(248,68,100,0.3);
+  color: #f84464;
+}
+
+.tag-category {
+  background: rgba(248,68,100,0.1);
+  border-color: rgba(248,68,100,0.25);
+  color: #f84464;
+}
+
+/* BUTTONS */
+.details-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.book-ticket-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #f84464, #c0392b);
+  color: #fff;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 6px 20px rgba(248,68,100,0.35);
+  text-decoration: none;
+}
+
+.book-ticket-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(248,68,100,0.5);
+}
+
+.watch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #1db954, #17a844);
+  color: #fff;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 6px 20px rgba(29,185,84,0.3);
+  text-decoration: none;
+}
+
+.watch-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(29,185,84,0.45);
+}
+
+.trailer-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.trailer-btn:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.2);
+  transform: translateY(-2px);
+}
+
+.coming-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,174,66,0.1);
+  border: 1px solid rgba(255,174,66,0.2);
+  color: #ffae42;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* ==================================================
+   INFO SECTION
+================================================== */
+.details-info-section {
+  max-width: 1100px;
+  margin: 60px auto 0;
+  padding: 0 32px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+}
+
+/* ABOUT */
+.about-movie-section h2,
+.similar-movies-section h2 {
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0 0 16px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.about-movie-section h2::after,
+.similar-movies-section h2::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.07);
+}
+
+.about-text {
+  font-size: 15px;
+  line-height: 1.9;
+  color: #777;
+}
+
+/* MOVIE INFO CARD */
+.movie-info-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px;
+  padding: 20px;
+  height: fit-content;
+}
+
+.movie-info-card h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 13px;
+}
+
+.info-row:last-child { border-bottom: none; }
+.info-label { color: #555; }
+.info-value { color: #ccc; font-weight: 500; text-align: right; }
+
+/* ==================================================
+   SIMILAR MOVIES
+================================================== */
+.similar-movies-section {
+  max-width: 1100px;
+  margin: 50px auto 60px;
+  padding: 0 32px;
+}
+
+.similar-movies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 20px;
+}
+
+/* ==================================================
+   RESPONSIVE
+================================================== */
+@media (max-width: 900px) {
+  .details-hero {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: -100px;
+    padding: 0 20px;
+  }
+
+  .details-hero-right { padding-top: 20px; }
+  .details-title { font-size: 28px; }
+  .details-tags { justify-content: center; }
+  .details-actions { justify-content: center; }
+  .details-meta { justify-content: center; }
+  .details-rating-row { justify-content: center; }
+  .details-info-section { grid-template-columns: 1fr; padding: 0 20px; }
+  .similar-movies-section { padding: 0 20px; }
+  .details-backdrop { height: 300px; }
+}
+
+@media (max-width: 500px) {
+  .details-poster { width: 180px; }
+  .details-title { font-size: 24px; }
+  .book-ticket-btn, .watch-btn, .trailer-btn { width: 100%; justify-content: center; }
+}

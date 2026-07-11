@@ -1,0 +1,180 @@
+/* ==================================================
+   MOVIE CARD
+================================================== */
+.movie-card {
+  background: #0e0e1a;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.movie-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(248,68,100,0.3);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(248,68,100,0.1);
+}
+
+/* POSTER WRAPPER */
+.movie-poster-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2/3;
+  overflow: hidden;
+}
+
+.movie-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+  display: block;
+}
+
+.movie-card:hover .movie-poster {
+  transform: scale(1.06);
+}
+
+/* OVERLAY */
+.movie-poster-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 50%,
+    rgba(0,0,0,0.8) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: flex-end;
+  padding: 12px;
+}
+
+.movie-card:hover .movie-poster-overlay { opacity: 1; }
+
+.movie-overlay-rating {
+  background: rgba(245,197,24,0.15);
+  color: #f5c518;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(245,197,24,0.2);
+}
+
+/* BADGE */
+.movie-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(248,68,100,0.9);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ott-badge {
+  background: rgba(29,185,84,0.9);
+}
+
+/* INFO */
+.movie-info {
+  padding: 12px 14px 14px;
+}
+
+.movie-title {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.movie-meta {
+  color: #555;
+  font-size: 12px;
+  margin: 0 0 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ACTION BUTTONS */
+.movie-action-btn {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  display: block;
+}
+
+.book-btn {
+  background: linear-gradient(135deg, #f84464, #c0392b);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(248,68,100,0.25);
+}
+
+.book-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(248,68,100,0.4);
+}
+
+.watch-btn {
+  background: linear-gradient(135deg, #1db954, #17a844);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(29,185,84,0.2);
+}
+
+.watch-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(29,185,84,0.35);
+}
+
+.coming-btn {
+  background: rgba(255,174,66,0.1);
+  color: #ffae42;
+  border: 1px solid rgba(255,174,66,0.2);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.wishlist-btn {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(0,0,0,0.6);
+  border: none;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  z-index: 5;
+  backdrop-filter: blur(4px);
+}
+
+.wishlist-btn:hover {
+  background: rgba(248,68,100,0.8);
+  transform: scale(1.1);
+}

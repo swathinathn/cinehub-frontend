@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import API from "../utils/axios";
 import formatDuration from "../utils/formatDuration";
-import "./MovieCard.css";
+import "./movieCard.css";
 
 export default function MovieCard({ movie }) {
   const navigate = useNavigate();

@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import formatDuration from "../utils/formatDuration";
 import { mediaUrl, getYouTubeId } from "../utils/media";
-import "./heroslider.css";
+import "./heroSlider.css";
 
 const IMAGE_MS = 7000;
 const TRAILER_MS = 22000;

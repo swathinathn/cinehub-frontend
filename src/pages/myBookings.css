@@ -1,69 +1,1150 @@
+/* =========================================
+   CINEHUB PREMIUM BOOKING DASHBOARD
+========================================= */
+
 .bookings-page {
-  padding: 40px 20px;
-  color: white;
+  min-height: 100vh;
+  padding: 55px 25px 80px;
+
+  color: #fff;
+
+  background:
+    radial-gradient(
+      ellipse at 5% 5%,
+      rgba(248, 68, 100, 0.09),
+      transparent 35%
+    ),
+    radial-gradient(
+      ellipse at 95% 50%,
+      rgba(105, 50, 180, 0.08),
+      transparent 35%
+    ),
+    #07070b;
 }
 
-.booking-ticket {
+.bookings-container {
+  max-width: 1250px;
+  margin: auto;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.bookings-header {
   display: flex;
-  background: #1b1b27;
-  border-radius: 14px;
-  overflow: hidden;
-  margin-bottom: 20px;
+  justify-content: space-between;
+  align-items: center;
+
+  padding-bottom: 35px;
+  margin-bottom: 30px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
-.booking-ticket img {
-  width: 100px;
-  object-fit: cover;
+.bookings-eyebrow {
+  color: #ff6680;
+
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 2.5px;
 }
 
-.ticket-info {
-  flex: 1;
-  padding: 14px;
+.bookings-heading h1 {
+  margin: 12px 0;
+
+  font-size: clamp(30px, 4vw, 43px);
+  font-weight: 900;
+  letter-spacing: -1.5px;
 }
 
-.status {
-  display: inline-block;
-  background: #2ecc71;
-  color: black;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  margin-top: 6px;
+.bookings-heading h1 span:first-child {
+  color: #ff5577;
 }
 
-.cancel-btn {
-  margin-top: 10px;
-  background: crimson;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 6px;
-  color: white;
-  cursor: pointer;
+.heading-ticket {
+  margin-left: 12px;
+  font-size: 30px;
 }
 
-.qr-box {
-  width: 100px;
-  background: repeating-linear-gradient(
-    45deg,
-    #000,
-    #000 4px,
-    #fff 4px,
-    #fff 8px
-  );
+.bookings-heading p {
+  color: #888;
+  font-size: 14px;
+}
+
+.booking-header-decoration {
+  width: 105px;
+  height: 105px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px solid rgba(248, 68, 100, 0.25);
+  border-radius: 22px;
+
+  background: rgba(248, 68, 100, 0.06);
+
+  transform: rotate(5deg);
+}
+
+.booking-header-decoration span {
+  color: #ff5577;
+  font-size: 38px;
+  font-weight: 900;
+}
+
+.booking-header-decoration small {
+  color: #888;
+  font-size: 9px;
+  letter-spacing: 3px;
+}
+
+/* =========================================
+   STATISTICS
+========================================= */
+
+.booking-stats {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 18px;
+  margin-bottom: 55px;
+}
+
+.booking-stat-card {
   display: flex;
   align-items: center;
-  justify-content: center;
-  color: black;
-  font-weight: bold;
+  gap: 15px;
+
+  padding: 22px 20px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.055),
+    rgba(255, 255, 255, 0.015)
+  );
+
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 15px;
+
+  transition: 0.3s ease;
 }
 
-@media (max-width: 600px) {
+.booking-stat-card:hover {
+  transform: translateY(-5px);
+
+  border-color: rgba(248, 68, 100, 0.3);
+
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 13px;
+
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.total-icon {
+  color: #ff6680;
+  background: rgba(248, 68, 100, 0.12);
+}
+
+.confirmed-icon {
+  color: #43d99a;
+  background: rgba(67, 217, 154, 0.12);
+}
+
+.upcoming-icon {
+  color: #a88aff;
+  background: rgba(168, 138, 255, 0.12);
+}
+
+.cancelled-icon {
+  color: #ff8b67;
+  background: rgba(255, 139, 103, 0.12);
+}
+
+.booking-stat-card span {
+  color: #888;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.booking-stat-card h2 {
+  margin-top: 3px;
+  font-size: 25px;
+  font-weight: 900;
+}
+
+/* =========================================
+   SECTION HEADING
+========================================= */
+
+.booking-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 25px;
+}
+
+.booking-section-heading h2 {
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.booking-section-heading p {
+  margin-top: 4px;
+  color: #777;
+  font-size: 12px;
+}
+
+.booking-count {
+  padding: 8px 14px;
+
+  color: #ff6680;
+
+  background: rgba(248, 68, 100, 0.09);
+
+  border: 1px solid rgba(248, 68, 100, 0.2);
+  border-radius: 25px;
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* =========================================
+   BOOKING LIST
+========================================= */
+
+.booking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* =========================================
+   DIGITAL TICKET
+========================================= */
+
+.booking-ticket {
+  position: relative;
+
+  display: grid;
+
+  grid-template-columns: 185px minmax(0, 1fr) 115px;
+
+  min-height: 290px;
+
+  overflow: hidden;
+
+  background: linear-gradient(
+    120deg,
+    #171722,
+    #11111a
+  );
+
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 17px;
+
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+
+  transition: all 0.35s ease;
+}
+
+.booking-ticket:hover {
+  transform: translateY(-4px);
+
+  border-color: rgba(248, 68, 100, 0.35);
+
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+}
+
+.ticket-cancelled {
+  opacity: 0.72;
+}
+
+/* =========================================
+   POSTER
+========================================= */
+
+.ticket-poster-section {
+  position: relative;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+.ticket-poster {
+  width: 100%;
+  height: 100%;
+
+  position: absolute;
+  inset: 0;
+
+  object-fit: cover;
+
+  transition: transform 0.5s ease;
+}
+
+.booking-ticket:hover .ticket-poster {
+  transform: scale(1.06);
+}
+
+.ticket-poster-overlay {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  padding: 20px 14px;
+
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.95),
+    rgba(0, 0, 0, 0.1)
+  );
+}
+
+.ticket-poster-overlay span {
+  color: #ff6680;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.ticket-poster-overlay strong {
+  margin-top: 6px;
+
+  color: white;
+  font-size: 16px;
+  line-height: 1.3;
+}
+
+/* =========================================
+   TICKET INFORMATION
+========================================= */
+
+.ticket-info {
+  min-width: 0;
+  padding: 24px 27px;
+}
+
+.ticket-topline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.ticket-reference {
+  color: #777;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.ticket-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  padding: 6px 11px;
+
+  border-radius: 30px;
+
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+
+.ticket-status.confirmed {
+  color: #43d99a;
+  background: rgba(67, 217, 154, 0.1);
+  border: 1px solid rgba(67, 217, 154, 0.2);
+}
+
+.ticket-status.cancelled {
+  color: #ff6c6c;
+  background: rgba(255, 80, 80, 0.1);
+  border: 1px solid rgba(255, 80, 80, 0.2);
+}
+
+.ticket-status.pending {
+  color: #ffbd59;
+  background: rgba(255, 189, 89, 0.1);
+  border: 1px solid rgba(255, 189, 89, 0.2);
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+
+  background: currentColor;
+  border-radius: 50%;
+}
+
+.ticket-movie-title {
+  margin-top: 15px;
+
+  color: white;
+
+  font-size: 23px;
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.ticket-theatre {
+  margin-top: 8px;
+  color: #999;
+  font-size: 12px;
+}
+
+/* =========================================
+   DETAIL GRID
+========================================= */
+
+.ticket-details-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 19px 25px;
+
+  margin-top: 24px;
+  padding: 20px 0;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.ticket-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  min-width: 0;
+}
+
+.ticket-detail span {
+  color: #777;
+
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.ticket-detail strong {
+  color: #eee;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  overflow-wrap: anywhere;
+}
+
+.ticket-detail .ticket-seats {
+  color: #ff6680;
+}
+
+/* =========================================
+   FOOD
+========================================= */
+
+.ticket-food {
+  margin-top: 17px;
+}
+
+.ticket-food > span {
+  color: #ffbd59;
+
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.ticket-food-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  margin-top: 9px;
+}
+
+.ticket-food-items span {
+  padding: 6px 10px;
+
+  color: #bbb;
+
+  background: rgba(255, 255, 255, 0.045);
+
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 6px;
+
+  font-size: 10px;
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.ticket-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+
+  margin-top: 20px;
+}
+
+.ticket-total {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ticket-total span {
+  color: #777;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.ticket-total strong {
+  color: #fff;
+  font-size: 21px;
+  font-weight: 900;
+}
+
+.ticket-actions {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.ticket-cancel-btn,
+.ticket-download-btn {
+  padding: 9px 13px;
+
+  border-radius: 8px;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.ticket-cancel-btn {
+  color: #ff7777;
+
+  background: rgba(255, 80, 80, 0.08);
+
+  border: 1px solid rgba(255, 80, 80, 0.2);
+}
+
+.ticket-cancel-btn:hover {
+  background: #b52c43;
+  color: white;
+}
+
+.ticket-download-btn {
+  color: white;
+  background: linear-gradient(110deg, #f84464, #c92e70);
+
+  border: none;
+
+  box-shadow: 0 5px 15px rgba(248, 68, 100, 0.15);
+}
+
+.ticket-download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 20px rgba(248, 68, 100, 0.3);
+}
+
+.ticket-cancel-btn:disabled,
+.ticket-download-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   COMPLETED
+========================================= */
+
+.ticket-completed {
+  margin-top: 15px;
+
+  color: #888;
+  font-size: 11px;
+}
+
+/* =========================================
+   TICKET STUB
+========================================= */
+
+.ticket-stub {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+
+  padding: 20px 10px;
+
+  background: rgba(248, 68, 100, 0.035);
+
+  border-left: 2px dashed rgba(255, 255, 255, 0.15);
+}
+
+.stub-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+
+.stub-top span {
+  color: #777;
+  font-size: 8px;
+  letter-spacing: 1px;
+  font-weight: 900;
+}
+
+.stub-top strong {
+  color: #ff5577;
+  font-size: 34px;
+  font-weight: 900;
+}
+
+.stub-divider {
+  width: 100%;
+  border-top: 1px dashed rgba(255, 255, 255, 0.13);
+}
+
+.stub-seat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.stub-seat small {
+  color: #777;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.stub-seat strong {
+  color: #fff;
+  font-size: 26px;
+  font-weight: 900;
+}
+
+.stub-barcode {
+  height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.stub-barcode i {
+  display: block;
+  height: 30px;
+  background: #ff6680;
+  opacity: 0.65;
+}
+
+.stub-number {
+  color: #777;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+/* =========================================
+   PAGINATION
+========================================= */
+
+.bookings-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 9px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.page-btn {
+  min-width: 40px;
+  padding: 11px 15px;
+
+  color: #999;
+
+  background: #15151f;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9px;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.page-btn:hover:not(:disabled) {
+  color: white;
+  border-color: #f84464;
+}
+
+.page-btn.active {
+  color: white;
+
+  background: linear-gradient(
+    120deg,
+    #f84464,
+    #c92e70
+  );
+
+  border-color: transparent;
+
+  box-shadow: 0 5px 15px rgba(248, 68, 100, 0.2);
+}
+
+.page-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.booking-empty-card {
+  max-width: 500px;
+
+  margin: 70px auto;
+  padding: 55px 30px;
+
+  text-align: center;
+
+  background: rgba(255, 255, 255, 0.025);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+}
+
+.booking-empty-icon {
+  font-size: 55px;
+  margin-bottom: 18px;
+}
+
+.booking-empty-card h2 {
+  color: white;
+  font-size: 24px;
+}
+
+.booking-empty-card p {
+  margin-top: 10px;
+
+  color: #888;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.booking-empty-card button {
+  margin-top: 24px;
+  padding: 13px 24px;
+
+  color: white;
+
+  background: linear-gradient(110deg, #f84464, #c92e70);
+
+  border: none;
+  border-radius: 9px;
+
+  font-size: 12px;
+  font-weight: 900;
+}
+
+/* =========================================
+   LOADING
+========================================= */
+
+.booking-loading {
+  min-height: 65vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  gap: 14px;
+  text-align: center;
+}
+
+.booking-spinner {
+  width: 46px;
+  height: 46px;
+
+  border: 3px solid rgba(255, 255, 255, 0.08);
+  border-top-color: #f84464;
+
+  border-radius: 50%;
+
+  animation: bookingSpin 0.8s linear infinite;
+}
+
+@keyframes bookingSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.booking-loading h3 {
+  color: white;
+  font-size: 17px;
+}
+
+.booking-loading p {
+  color: #777;
+  font-size: 12px;
+}
+
+/* =========================================
+   ERROR
+========================================= */
+
+.booking-error {
+  padding: 18px;
+
+  color: #ff7777;
+  background: rgba(255, 70, 70, 0.08);
+
+  border: 1px solid rgba(255, 70, 70, 0.2);
+  border-radius: 10px;
+}
+
+/* =========================================
+   BOTTOM
+========================================= */
+
+.bookings-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  margin-top: 60px;
+
+  color: #666;
+  font-size: 12px;
+}
+
+.bookings-bottom span {
+  font-size: 19px;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1000px) {
+  .booking-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .booking-ticket {
+    grid-template-columns: 150px minmax(0, 1fr) 90px;
+  }
+
+  .ticket-info {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 700px) {
+  .bookings-page {
+    padding: 35px 15px 60px;
+  }
+
+  .booking-header-decoration {
+    width: 75px;
+    height: 75px;
+  }
+
+  .booking-header-decoration span {
+    font-size: 27px;
+  }
+
+  .booking-ticket {
+    grid-template-columns: 110px minmax(0, 1fr);
+  }
+
+  .ticket-stub {
+    display: none;
+  }
+
+  .ticket-poster-overlay {
+    padding: 12px 9px;
+  }
+
+  .ticket-poster-overlay strong {
+    font-size: 12px;
+  }
+
+  .ticket-info {
+    padding: 17px;
+  }
+
+  .ticket-movie-title {
+    font-size: 18px;
+  }
+
+  .ticket-topline {
+    align-items: flex-start;
     flex-direction: column;
   }
 
-  .qr-box {
+  .ticket-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .bookings-heading h1 {
+    font-size: 28px;
+  }
+
+  .bookings-heading p {
+    font-size: 11px;
+  }
+
+  .booking-stats {
+    gap: 10px;
+  }
+
+  .booking-stat-card {
+    padding: 14px 10px;
+    gap: 9px;
+  }
+
+  .stat-icon {
+    width: 35px;
+    height: 35px;
+    font-size: 15px;
+  }
+
+  .booking-stat-card span {
+    font-size: 9px;
+  }
+
+  .booking-stat-card h2 {
+    font-size: 20px;
+  }
+
+  .booking-section-heading h2 {
+    font-size: 19px;
+  }
+
+  .ticket-details-grid {
+    gap: 15px 10px;
+  }
+
+  .ticket-detail strong {
+    font-size: 11px;
+  }
+
+  .ticket-actions {
     width: 100%;
-    height: 60px;
+  }
+
+  .ticket-cancel-btn,
+  .ticket-download-btn {
+    flex: 1;
+  }
+
+  .booking-empty-card {
+    padding: 40px 20px;
+  }
+}
+/* =========================================
+   FINISHED STATISTICS
+========================================= */
+
+.booking-stats {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.finished-icon {
+  color: #aaa0ff;
+  background: rgba(170, 160, 255, 0.12);
+}
+
+/* =========================================
+   BOOKING FILTERS
+========================================= */
+
+.booking-filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.booking-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 17px;
+  color: #999;
+  background: #15151f;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.booking-filter span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 21px;
+  height: 21px;
+  padding: 0 5px;
+  color: #aaa;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  font-size: 10px;
+}
+
+.booking-filter:hover {
+  color: white;
+  border-color: #f84464;
+}
+
+.booking-filter.active {
+  color: white;
+  background: linear-gradient(110deg, #f84464, #c92e70);
+  border-color: transparent;
+  box-shadow: 0 5px 18px rgba(248, 68, 100, 0.2);
+}
+
+.booking-filter.active span {
+  color: white;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* =========================================
+   SHOW FINISHED STATUS
+========================================= */
+
+.ticket-status.finished {
+  color: #aaa0ff;
+  background: rgba(170, 160, 255, 0.1);
+  border: 1px solid rgba(170, 160, 255, 0.25);
+}
+
+.ticket-status.finished .status-dot {
+  background: #aaa0ff;
+}
+
+.ticket-finished {
+  border-color: rgba(170, 160, 255, 0.2);
+}
+
+.ticket-completed {
+  padding: 10px 13px;
+  margin-top: 15px;
+  color: #aaa0ff;
+  background: rgba(170, 160, 255, 0.07);
+  border: 1px solid rgba(170, 160, 255, 0.15);
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* =========================================
+   FILTER EMPTY STATE
+========================================= */
+
+.booking-filter-empty {
+  padding: 55px 20px;
+  margin: 20px 0;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+}
+
+.booking-filter-empty > div {
+  font-size: 45px;
+  margin-bottom: 15px;
+}
+
+.booking-filter-empty h3 {
+  color: white;
+  font-size: 20px;
+}
+
+.booking-filter-empty p {
+  margin-top: 10px;
+  color: #888;
+  font-size: 12px;
+}
+
+.booking-filter-empty button {
+  margin-top: 22px;
+  padding: 11px 20px;
+  color: white;
+  background: linear-gradient(110deg, #f84464, #c92e70);
+  border: none;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1000px) {
+  .booking-stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .booking-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .booking-filters {
+    gap: 8px;
+  }
+
+  .booking-filter {
+    padding: 9px 11px;
+    font-size: 10px;
   }
 }

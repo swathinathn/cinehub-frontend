@@ -12,39 +12,39 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-const fetchData = async () => {
-  try {
-    const [moviesRes, bookingsRes, usersRes] = await Promise.all([
-      API.get("/movies/list/?page_size=1000"),
-      API.get("/bookings/?page_size=1000"),
-      API.get("/users/all/?page_size=1000"),
-    ]);
-    const movieData = moviesRes.data.results || moviesRes.data;
-    const bookingData = bookingsRes.data.results || bookingsRes.data;
-    const userData = usersRes.data.results || usersRes.data;
-    const revenue = bookingData.reduce((sum, b) => sum + parseFloat(b.total_amount || 0), 0);
+    const fetchData = async () => {
+      try {
+        const [moviesRes, bookingsRes, usersRes] = await Promise.all([
+          API.get("/movies/list/?page_size=1000"),
+          API.get("/bookings/?page_size=1000"),
+          API.get("/users/all/?page_size=1000"),
+        ]);
+        const movieData = moviesRes.data.results || moviesRes.data;
+        const bookingData = bookingsRes.data.results || bookingsRes.data;
+        const userData = usersRes.data.results || usersRes.data;
+        const revenue = bookingData.reduce((sum, b) => sum + parseFloat(b.total_amount || 0), 0);
 
-    setStats({
-      movies: movieData.length,
-      bookings: bookingData.length,
-      users: userData.length,
-      revenue: revenue.toFixed(2),
-    });
-    setBookings(bookingData);
-    setMovies(movieData);
-  } catch (err) {
-    console.error("Failed to load stats", err);
-  } finally {
-    setLoading(false);
-  }
-};
+        setStats({
+          movies: movieData.length,
+          bookings: bookingData.length,
+          users: userData.length,
+          revenue: revenue.toFixed(2),
+        });
+        setBookings(bookingData);
+        setMovies(movieData);
+      } catch (err) {
+        console.error("Failed to load stats", err);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchData();
   }, []);
 
   // Bookings by status for pie chart
   const bookingStatusData = [
     { name: "Confirmed", value: bookings.filter(b => b.status === "confirmed").length, color: "#4caf50" },
-    { name: "Pending",   value: bookings.filter(b => b.status === "pending").length,   color: "#f5a623" },
+    { name: "Pending", value: bookings.filter(b => b.status === "pending").length, color: "#f5a623" },
     { name: "Cancelled", value: bookings.filter(b => b.status === "cancelled").length, color: "#f84464" },
   ].filter(d => d.value > 0);
 
@@ -74,15 +74,15 @@ const fetchData = async () => {
   // Category distribution
   const categoryData = [
     { name: "In Theatres", value: movies.filter(m => m.category === "in_theatres").length, color: "#f84464" },
-    { name: "OTT",         value: movies.filter(m => m.category === "ott").length,         color: "#1db954" },
+    { name: "OTT", value: movies.filter(m => m.category === "ott").length, color: "#1db954" },
     { name: "Coming Soon", value: movies.filter(m => m.category === "coming_soon").length, color: "#f5a623" },
   ].filter(d => d.value > 0);
 
   const statCards = [
-    { label: "Total Movies",   value: stats.movies,          icon: "🎬", color: "#f84464", bg: "rgba(248,68,100,0.1)" },
-    { label: "Total Bookings", value: stats.bookings,         icon: "🎟️", color: "#f5a623", bg: "rgba(245,166,35,0.1)" },
-    { label: "Total Users",    value: stats.users,            icon: "👥", color: "#4caf50", bg: "rgba(76,175,80,0.1)"  },
-    { label: "Total Revenue",  value: `₹${stats.revenue}`,   icon: "💰", color: "#2196f3", bg: "rgba(33,150,243,0.1)" },
+    { label: "Total Movies", value: stats.movies, icon: "🎬", color: "#f84464", bg: "rgba(248,68,100,0.1)" },
+    { label: "Total Bookings", value: stats.bookings, icon: "🎟️", color: "#f5a623", bg: "rgba(245,166,35,0.1)" },
+    { label: "Total Users", value: stats.users, icon: "👥", color: "#4caf50", bg: "rgba(76,175,80,0.1)" },
+    { label: "Total Revenue", value: `₹${stats.revenue}`, icon: "💰", color: "#2196f3", bg: "rgba(33,150,243,0.1)" },
   ];
 
   const tooltipStyle = {
@@ -196,7 +196,7 @@ const fetchData = async () => {
                 <XAxis dataKey="name" tick={{ fill: "#555", fontSize: 11 }} />
                 <YAxis tick={{ fill: "#555", fontSize: 11 }} />
                 <Tooltip contentStyle={tooltipStyle} />
-                <Bar dataKey="bookings" fill="#f84464" radius={[6,6,0,0]} />
+                <Bar dataKey="bookings" fill="#f84464" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           ) : (
@@ -247,7 +247,7 @@ const fetchData = async () => {
               contentStyle={tooltipStyle}
               formatter={(value) => [`₹${value}`, "Revenue"]}
             />
-            <Bar dataKey="revenue" fill="#2196f3" radius={[6,6,0,0]} />
+            <Bar dataKey="revenue" fill="#2196f3" radius={[6, 6, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>

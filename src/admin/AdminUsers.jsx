@@ -1,23 +1,37 @@
 import React, { useState, useEffect } from "react";
 import API from "../utils/axios";
+import AdminPagination from "./AdminPagination";
+import "./admin.css";
 
 export default function AdminUsers() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const ROWS_PER_PAGE = 10;
+
   useEffect(() => {
-    const fetch = async () => {
-      try {
-        const res = await API.get("/users/all/?page_size=1000");
-        setUsers(res.data.results || res.data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
+    fetchUsers();
+  }, [currentPage]);
+
+  const fetchUsers = async () => {
+    setLoading(true);
+    try {
+      const res = await API.get(`/users/all/?page=${currentPage}&page_size=${ROWS_PER_PAGE}`);
+      setUsers(res.data.results || res.data);
+      if (res.data.count) {
+        setTotalPages(Math.ceil(res.data.count / ROWS_PER_PAGE));
+      } else {
+        setTotalPages(1);
       }
-    };
-    fetch();
-  }, []);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const toggleBlock = async (id, isActive) => {
     try {
@@ -30,14 +44,14 @@ export default function AdminUsers() {
     }
   };
 
-  if (loading) return <p style={{ color: "#fff" }}>Loading...</p>;
+  if (loading) return <p className="admin-page">Loading...</p>;
 
   return (
-    <div>
-      <h2 style={{ color: "#fff", marginBottom: "20px" }}>👥 User Management</h2>
-      <table style={{ width: "100%", borderCollapse: "collapse" }}>
+    <div className="admin-page">
+      <h2 className="admin-header">👥 User Management</h2>
+      <table className="admin-table" style={{ width: "100%", borderCollapse: "collapse", background: "#0e0e1a", borderRadius: "12px", overflow: "hidden" }}>
         <thead>
-          <tr style={{ background: "#16213e" }}>
+          <tr style={{ background: "#16213e", color: "#fff" }}>
             <th style={th}>Email</th>
             <th style={th}>Username</th>
             <th style={th}>Role</th>
@@ -47,26 +61,23 @@ export default function AdminUsers() {
         </thead>
         <tbody>
           {users.map((user) => (
-            <tr key={user.id} style={{ borderBottom: "1px solid #333" }}>
-              <td style={{ ...td, color: "#fff" }}>{user.email}</td>
+            <tr key={user.id} style={{ borderBottom: "1px solid #222" }}>
+              <td style={{ ...td, color: "#fff", fontWeight: "600" }}>{user.email}</td>
               <td style={td}>{user.username}</td>
               <td style={td}>{user.role}</td>
               <td style={td}>
                 <span style={{
-                  padding: "4px 10px", borderRadius: "20px", fontSize: "12px",
-                  background: user.is_active ? "#4caf50" : "#e50914", color: "#fff"
+                  padding: "4px 10px", borderRadius: "12px", fontSize: "11px", fontWeight: "700",
+                  background: user.is_active ? "rgba(76,175,80,0.15)" : "rgba(229,9,20,0.15)", color: user.is_active ? "#4caf50" : "#e50914"
                 }}>
-                  {user.is_active ? "Active" : "Blocked"}
+                  {user.is_active ? "ACTIVE" : "BLOCKED"}
                 </span>
               </td>
               <td style={td}>
                 <button
                   onClick={() => toggleBlock(user.id, user.is_active)}
-                  style={{
-                    background: user.is_active ? "#e50914" : "#4caf50",
-                    color: "#fff", border: "none", padding: "6px 12px",
-                    borderRadius: "6px", cursor: "pointer"
-                  }}
+                  className={user.is_active ? "admin-btn-danger" : "admin-btn-secondary"}
+                  style={{ color: !user.is_active && "#4caf50", borderColor: !user.is_active && "rgba(76,175,80,0.3)", background: !user.is_active && "rgba(76,175,80,0.1)" }}
                 >
                   {user.is_active ? "Block" : "Unblock"}
                 </button>
@@ -75,9 +86,15 @@ export default function AdminUsers() {
           ))}
         </tbody>
       </table>
+
+      <AdminPagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
     </div>
   );
 }
 
-const th = { padding: "12px 16px", textAlign: "left", color: "#aaa" };
-const td = { padding: "12px 16px", color: "#ccc" };
+const th = { padding: "14px 16px", textAlign: "left", color: "#aaa", fontSize: "13px", fontWeight: "600", textTransform: "uppercase", letterSpacing: "0.5px" };
+const td = { padding: "14px 16px", color: "#ccc", fontSize: "14px" };

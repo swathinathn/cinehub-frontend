@@ -19,6 +19,12 @@ import AdminShowtimes from "./admin/AdminShowtimes";
 import AdminProtectedRoute from "./admin/AdminProtectedRoute";
 import Profile from "./pages/Profile";
 import Wishlist from "./pages/Wishlist";
+import Notifications from "./pages/Notifications";
+import Chatbot from "./components/Chatbot";
+import AdminTheatres from "./admin/AdminTheatres";
+import AdminGenres from "./admin/AdminGenres";
+import AdminCast from "./admin/AdminCast";
+import AdminFood from "./admin/AdminFood";
 
 function MainLayout() {
   return (
@@ -36,9 +42,11 @@ function MainLayout() {
           <Route path="/my-bookings" element={<MyBookings />} />
           <Route path="/search" element={<SearchResults />} />
           <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/notifications" element={<Notifications />} />
         </Routes>
       </div>
       <Footer />
+       <Chatbot />
     </>
   );
 }
@@ -59,6 +67,10 @@ export default function App() {
           <Route path="bookings" element={<AdminBookings />} />
           <Route path="users" element={<AdminUsers />} />
           <Route path="showtimes" element={<AdminShowtimes />} />
+          <Route path="theatres" element={<AdminTheatres />} />
+          <Route path="genres" element={<AdminGenres />} />
+          <Route path="cast" element={<AdminCast />} />
+          <Route path="food" element={<AdminFood />} />
         </Route>
 
         {/* Main routes */}

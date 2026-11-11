@@ -1,11 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./footer.css";
 import Logo from "./Logo";
 
 export default function Footer() {
+  const [email, setEmail] = useState("");
+  const [toast, setToast] = useState("");
+
+  const showToast = (msg, e) => {
+    if (e) e.preventDefault();
+    setToast(msg);
+    setTimeout(() => setToast(""), 3000);
+  };
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (email) {
+      showToast(`Subscribed successfully with ${email}!`);
+      setEmail("");
+    }
+  };
+
   return (
     <footer className="footer">
+      {toast && (
+        <div className="footer-toast fade-in">
+          {toast}
+        </div>
+      )}
       {/* TOP WAVE */}
       <div className="footer-wave">
         <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
@@ -60,37 +82,37 @@ export default function Footer() {
           {/* SUPPORT */}
           <div className="footer-col">
             <h4>Support</h4>
-            <a href="#">❓ Help Center</a>
-            <a href="#">📋 Terms & Conditions</a>
-            <a href="#">🔒 Privacy Policy</a>
-            <a href="#">♿ Accessibility</a>
-            <a href="#">📞 Contact Us</a>
+            <a href="#" onClick={(e) => showToast("Help Center is under construction.", e)}>❓ Help Center</a>
+            <a href="#" onClick={(e) => showToast("Terms & Conditions coming soon.", e)}>📋 Terms & Conditions</a>
+            <a href="#" onClick={(e) => showToast("Privacy Policy coming soon.", e)}>🔒 Privacy Policy</a>
+            <a href="#" onClick={(e) => showToast("Accessibility options loading...", e)}>♿ Accessibility</a>
+            <a href="#" onClick={(e) => showToast("Contact support at support@cinehub.com", e)}>📞 Contact Us</a>
           </div>
 
-          {/* APP / INFO */}
+          {/* NEWSLETTER / APP */}
           <div className="footer-col">
             <h4>Experience</h4>
-            <div className="footer-app-badge">
+            <div className="footer-app-badge" onClick={(e) => showToast("Mobile app launching next month!", e)}>
               <span>📱</span>
               <div>
                 <p>Download App</p>
                 <span>Coming Soon</span>
               </div>
             </div>
-            <div className="footer-stats">
-              <div className="stat">
-                <strong>500+</strong>
-                <span>Movies</span>
+            
+            <form className="newsletter-form" onSubmit={handleSubscribe}>
+              <p>Get latest updates</p>
+              <div className="newsletter-input-group">
+                <input 
+                  type="email" 
+                  placeholder="Enter email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required 
+                />
+                <button type="submit">GO</button>
               </div>
-              <div className="stat">
-                <strong>50+</strong>
-                <span>Theatres</span>
-              </div>
-              <div className="stat">
-                <strong>10K+</strong>
-                <span>Users</span>
-              </div>
-            </div>
+            </form>
           </div>
 
         </div>

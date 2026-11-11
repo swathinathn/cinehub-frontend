@@ -1,41 +1,96 @@
+/* =====================================
+   CINEHUB PREMIUM LOGO
+===================================== */
+
 .logo-wrapper {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 10px;
+
   cursor: pointer;
+  user-select: none;
+
+  transition: transform 0.3s ease;
 }
 
-/* Icon container */
-.logo-icon svg rect {
-  fill: #f84464;
+/* LOGO ICON */
+
+.logo-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 200px;
+  height: 100px;
+
+  border-radius: 12px;
+
+  transition:
+    transform 0.35s ease,
+    filter 0.35s ease;
 }
 
-/* Play icon */
-.play-icon {
-  fill: white;
-  transform-origin: center;
-  transition: transform 0.25s ease, filter 0.25s ease;
+.logo-icon img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  transition: transform 0.35s ease;
 }
 
-/* Text */
+/* LOGO TEXT */
+
 .logo-text {
-  font-size: 20px;
-  font-weight: 700;
+  color: #ffffff;
+
+  font-size: 21px;
+  font-weight: 900;
+
   letter-spacing: 0.5px;
-  color: white;
+
+  line-height: 1;
+
+  white-space: nowrap;
 }
 
 .logo-text span {
   color: #f84464;
 }
 
+/* HOVER EFFECT */
 
-    
-.logo-wrapper:hover .logo-icon {
-  filter: drop-shadow(0 0 6px rgba(221, 14, 14, 0.8));
- 
-  transform: scale(1.02) rotate(10deg);
+/* .logo-wrapper:hover .logo-icon {
+  transform: scale(1.08) rotate(-5deg);
 
+  filter: drop-shadow(
+    0 0 9px rgba(248, 68, 100, 0.65)
+  );
+} */
 
-  
+.logo-wrapper:hover .logo-text {
+  text-shadow: 0 0 12px rgba(248, 68, 100, 0.25);
+}
+
+/* CLICK EFFECT */
+
+.logo-wrapper:active {
+  transform: scale(0.96);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 480px) {
+  .logo-wrapper {
+    gap: 7px;
+  }
+
+  .logo-icon {
+    width: 35px;
+    height: 35px;
+  }
+
+  .logo-text {
+    font-size: 18px;
+  }
 }

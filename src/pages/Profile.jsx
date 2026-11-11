@@ -11,6 +11,7 @@ export default function Profile() {
   const [photoFile, setPhotoFile] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(null);
   const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     fetchProfile();
@@ -36,7 +37,29 @@ export default function Profile() {
     }
   };
 
+  const validate = () => {
+    const err = {};
+    if (!formData.username.trim()) {
+      err.username = "Username is required";
+    } else if (formData.username.trim().length < 3) {
+      err.username = "Username must be at least 3 characters";
+    }
+
+    if (formData.phone && !/^[6-9]\d{9}$/.test(formData.phone)) {
+      err.phone = "Enter a valid 10-digit phone number";
+    }
+
+    return err;
+  };
+
   const handleSave = async () => {
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length) {
+      setErrors(validationErrors);
+      return;
+    }
+    setErrors({});
+
     try {
       setSaving(true);
       const data = new FormData();
@@ -53,7 +76,6 @@ export default function Profile() {
       setMessage("✅ Profile updated successfully!");
       setTimeout(() => setMessage(""), 3000);
 
-      // Update local storage user data
       const localUser = JSON.parse(localStorage.getItem("cinehub-user"));
       localStorage.setItem("cinehub-user", JSON.stringify({
         ...localUser,
@@ -81,8 +103,8 @@ export default function Profile() {
   const photoUrl = photoPreview
     ? photoPreview
     : profile.profile_photo
-    ? (profile.profile_photo.startsWith("http") ? profile.profile_photo : `http://127.0.0.1:8000${profile.profile_photo}`)
-    : null;
+      ? (profile.profile_photo.startsWith("http") ? profile.profile_photo : `${BACKEND_URL}$${profile.profile_photo}`)
+      : null;
 
   return (
     <div className="profile-page">
@@ -120,10 +142,20 @@ export default function Profile() {
           <div className="profile-field">
             <label>Username</label>
             {editMode ? (
-              <input
-                value={formData.username}
-                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-              />
+              <>
+                <input
+                  value={formData.username}
+                  onChange={(e) => {
+                    setFormData({ ...formData, username: e.target.value });
+                    setErrors({ ...errors, username: null });
+                  }}
+                />
+                {errors.username && (
+                  <span style={{ color: "#f84464", fontSize: "12px", marginTop: "4px", display: "block" }}>
+                    {errors.username}
+                  </span>
+                )}
+              </>
             ) : (
               <p>{profile.username}</p>
             )}
@@ -137,11 +169,21 @@ export default function Profile() {
           <div className="profile-field">
             <label>Phone</label>
             {editMode ? (
-              <input
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                placeholder="Add phone number"
-              />
+              <>
+                <input
+                  value={formData.phone}
+                  onChange={(e) => {
+                    setFormData({ ...formData, phone: e.target.value.replace(/\D/g, "").slice(0, 10) });
+                    setErrors({ ...errors, phone: null });
+                  }}
+                  placeholder="Add phone number"
+                />
+                {errors.phone && (
+                  <span style={{ color: "#f84464", fontSize: "12px", marginTop: "4px", display: "block" }}>
+                    {errors.phone}
+                  </span>
+                )}
+              </>
             ) : (
               <p>{profile.phone || "Not added"}</p>
             )}
@@ -159,6 +201,7 @@ export default function Profile() {
                 setFormData({ username: profile.username, phone: profile.phone || "" });
                 setPhotoPreview(null);
                 setPhotoFile(null);
+                setErrors({});
               }}>
                 Cancel
               </button>

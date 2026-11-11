@@ -27,6 +27,18 @@ export default function Navbar() {
   });
   const [errors, setErrors] = useState({});
   const [searchInput, setSearchInput] = useState("");
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  // Fetch unread count
+  useEffect(() => {
+    if (user) {
+      API.get("/users/notifications/").then((res) => {
+        const notifs = res.data.results || res.data;
+        const count = notifs.filter(n => !n.is_read).length;
+        setUnreadCount(count);
+      }).catch(() => {});
+    }
+  }, [user, location.pathname]);
 
   // Scroll effect
   useEffect(() => {
@@ -215,11 +227,17 @@ export default function Navbar() {
           </form>
 
           {user ? (
-            <div className="profile-wrapper">
-              <button
-                className="profile-btn"
-                onClick={(e) => { e.stopPropagation(); setProfileOpen(!profileOpen); }}
-              >
+            <>
+              <button className="notification-bell" onClick={() => navigate('/notifications')}>
+                🔔
+                {unreadCount > 0 && <span className="notification-badge">{unreadCount}</span>}
+              </button>
+
+              <div className="profile-wrapper">
+                <button
+                  className="profile-btn"
+                  onClick={(e) => { e.stopPropagation(); setProfileOpen(!profileOpen); }}
+                >
                 <div className="profile-avatar">
                   {user.name?.[0]?.toUpperCase() || user.email?.[0]?.toUpperCase() || "U"}
                 </div>
@@ -263,6 +281,7 @@ export default function Navbar() {
                 </div>
               )}
             </div>
+            </>
           ) : (
             <button className="login-btn" onClick={() => setModalOpen(true)}>
               Sign In

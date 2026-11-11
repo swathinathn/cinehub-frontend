@@ -1,77 +1,83 @@
 import React, { useState } from "react";
+import API from "../utils/axios";
 import "./payment.css";
 
 export default function PaymentModal({
   movie, seats, total, theatre, time, date, onClose, onSuccess
 }) {
-  const [method, setMethod] = useState("card");
-  const [card, setCard] = useState("");
-  const [name, setName] = useState("");
-  const [expiry, setExpiry] = useState("");
-  const [cvv, setCvv] = useState("");
-  const [upi, setUpi] = useState("");
-  const [errors, setErrors] = useState({});
-  const [success, setSuccess] = useState(false);
   const [processing, setProcessing] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
 
-  const [walletBalance, setWalletBalance] = useState(() => {
-    return parseFloat(localStorage.getItem("wallet-balance") || "2500");
-  });
-
-  const formatCard = (val) => {
-    const digits = val.replace(/\D/g, "").slice(0, 16);
-    return digits.replace(/(.{4})/g, "$1 ").trim();
-  };
-
-  const formatExpiry = (val) => {
-    const digits = val.replace(/\D/g, "").slice(0, 4);
-    if (digits.length >= 3) return digits.slice(0, 2) + "/" + digits.slice(2);
-    return digits;
-  };
-
-  const validate = () => {
-    const err = {};
-    if (method === "card") {
-      if (card.replace(/\s/g, "").length !== 16) err.card = "Enter valid 16-digit card number";
-      if (!name.trim()) err.name = "Enter cardholder name";
-      if (expiry.length !== 5) err.expiry = "Enter valid expiry (MM/YY)";
-      if (cvv.length !== 3) err.cvv = "Enter valid 3-digit CVV";
-    }
-    if (method === "upi") {
-      if (!upi.includes("@")) err.upi = "Enter valid UPI ID (example@upi)";
-    }
-    if (method === "wallet") {
-      if (walletBalance < total) {
-        err.wallet = "Insufficient wallet balance";
-      }
-    }
-    return err;
-  };
-
-  const handlePay = async () => {
-    const validationErrors = validate();
-    if (Object.keys(validationErrors).length) { setErrors(validationErrors); return; }
-    setErrors({});
+  const handleRazorpayPayment = async () => {
     setProcessing(true);
+    setError("");
 
-    if (method === "wallet") {
-      const newBalance = walletBalance - total;
-      setWalletBalance(newBalance);
-      localStorage.setItem("wallet-balance", newBalance.toString());
+    try {
+      // Step 1: Create order on backend
+      const orderRes = await API.post("/payments/create-order/", { amount: total });
+      const { order_id, amount, currency, key } = orderRes.data;
+
+      const user = JSON.parse(localStorage.getItem("cinehub-user"));
+
+      // Step 2: Open Razorpay checkout
+      const options = {
+        key: key,
+        amount: amount,
+        currency: currency,
+        order_id: order_id,
+        name: "CineHub",
+        description: `${movie.title} • ${seats.length} seat${seats.length > 1 ? "s" : ""}`,
+        image: "/logo.png",
+        handler: async function (response) {
+          try {
+            
+            const verifyRes = await API.post("/payments/verify-payment/", {
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            });
+
+            if (verifyRes.data.status === "success") {
+              setProcessing(false);
+              setSuccess(true);
+              setTimeout(() => onSuccess(response), 2000);
+            } else {
+              setProcessing(false);
+              setError("Payment verification failed. Please contact support.");
+            }
+          } catch (err) {
+            setProcessing(false);
+            setError("Payment verification failed.");
+          }
+        },
+        prefill: {
+          name: user?.name || "",
+          email: user?.email || "",
+        },
+        theme: {
+          color: "#f84464",
+        },
+        modal: {
+          ondismiss: function () {
+            setProcessing(false);
+          },
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+
+      rzp.on("payment.failed", function (response) {
+        setProcessing(false);
+        setError("Payment failed: " + response.error.description);
+      });
+
+      rzp.open();
+    } catch (err) {
+      setProcessing(false);
+      setError("Failed to initiate payment. Please try again.");
     }
-
-    await new Promise(r => setTimeout(r, 1800));
-
-    setProcessing(false);
-    setSuccess(true);
-    setTimeout(() => onSuccess(), 2000);
   };
-
-  const paymentMethods = [
-    { id: "card", icon: "💳", label: "Card" },
-    { id: "upi", icon: "📱", label: "UPI" },
-    { id: "wallet", icon: "👛", label: "Wallet" },
-  ];
 
   return (
     <div className="pm-backdrop" onClick={onClose}>
@@ -81,7 +87,7 @@ export default function PaymentModal({
             <div className="pm-header">
               <div>
                 <h3>Complete Payment</h3>
-                <p className="pm-subtitle">Secure checkout</p>
+                <p className="pm-subtitle">Secure checkout via Razorpay</p>
               </div>
               <button className="pm-close" onClick={onClose}>✕</button>
             </div>
@@ -104,109 +110,23 @@ export default function PaymentModal({
               <span className="pm-total">₹{total}</span>
             </div>
 
-            <div className="pm-methods">
-              {paymentMethods.map(m => (
-                <button
-                  key={m.id}
-                  className={`pm-method-btn ${method === m.id ? "active" : ""}`}
-                  onClick={() => { setMethod(m.id); setErrors({}); }}
-                >
-                  <span>{m.icon}</span>
-                  <span>{m.label}</span>
-                </button>
-              ))}
-            </div>
-
-            {method === "card" && (
-              <div className="pm-form">
-                <div className="pm-input-group">
-                  <label>Card Number</label>
-                  <input
-                    type="text"
-                    placeholder="0000 0000 0000 0000"
-                    value={card}
-                    onChange={e => setCard(formatCard(e.target.value))}
-                    maxLength="19"
-                  />
-                  {errors.card && <span className="pm-error">{errors.card}</span>}
-                </div>
-
-                <div className="pm-input-group">
-                  <label>Cardholder Name</label>
-                  <input
-                    type="text"
-                    placeholder="John Doe"
-                    value={name}
-                    onChange={e => setName(e.target.value)}
-                  />
-                  {errors.name && <span className="pm-error">{errors.name}</span>}
-                </div>
-
-                <div className="pm-row">
-                  <div className="pm-input-group">
-                    <label>Expiry</label>
-                    <input
-                      type="text"
-                      placeholder="MM/YY"
-                      value={expiry}
-                      onChange={e => setExpiry(formatExpiry(e.target.value))}
-                      maxLength="5"
-                    />
-                    {errors.expiry && <span className="pm-error">{errors.expiry}</span>}
-                  </div>
-                  <div className="pm-input-group">
-                    <label>CVV</label>
-                    <input
-                      type="password"
-                      placeholder="•••"
-                      value={cvv}
-                      onChange={e => setCvv(e.target.value.replace(/\D/g, "").slice(0, 3))}
-                      maxLength="3"
-                    />
-                    {errors.cvv && <span className="pm-error">{errors.cvv}</span>}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {method === "upi" && (
-              <div className="pm-form">
-                <div className="pm-upi-apps">
-                  {["GPay", "PhonePe", "Paytm", "BHIM"].map(app => (
-                    <div key={app} className="pm-upi-app">{app}</div>
-                  ))}
-                </div>
-                <div className="pm-input-group">
-                  <label>UPI ID</label>
-                  <input
-                    type="text"
-                    placeholder="yourname@upi"
-                    value={upi}
-                    onChange={e => setUpi(e.target.value)}
-                  />
-                  {errors.upi && <span className="pm-error">{errors.upi}</span>}
-                </div>
-              </div>
-            )}
-
-            {method === "wallet" && (
-              <div className="pm-form">
-                <div className="pm-wallet-balance">
-                  <span>💰 Wallet Balance</span>
-                  <span className="pm-wallet-amt">₹{walletBalance.toFixed(2)}</span>
-                </div>
-                <p className="pm-wallet-note">
-                  {total <= walletBalance
-                    ? `✅ ₹${(walletBalance - total).toFixed(2)} will remain after payment`
-                    : `❌ Insufficient balance. Need ₹${(total - walletBalance).toFixed(2)} more`}
-                </p>
-                {errors.wallet && <span className="pm-error">{errors.wallet}</span>}
+            {error && (
+              <div style={{
+                background: "rgba(248,68,100,0.1)",
+                border: "1px solid rgba(248,68,100,0.3)",
+                color: "#f84464",
+                padding: "12px 16px",
+                borderRadius: "10px",
+                fontSize: "13px",
+                marginBottom: "16px"
+              }}>
+                ⚠️ {error}
               </div>
             )}
 
             <button
               className={`pm-pay-btn ${processing ? "processing" : ""}`}
-              onClick={handlePay}
+              onClick={handleRazorpayPayment}
               disabled={processing}
             >
               {processing ? (
@@ -215,11 +135,11 @@ export default function PaymentModal({
                   Processing...
                 </span>
               ) : (
-                `Pay ₹${total}`
+                `Pay ₹${total} with Razorpay`
               )}
             </button>
 
-            <p className="pm-secure">🔒 256-bit SSL encrypted • Secure payment</p>
+            <p className="pm-secure">🔒 256-bit SSL encrypted • Powered by Razorpay</p>
           </>
         ) : (
           <div className="pm-success">

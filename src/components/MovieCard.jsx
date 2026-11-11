@@ -20,38 +20,42 @@ export default function MovieCard({ movie }) {
 
   const handleWatch = (e) => {
     e.stopPropagation();
-    if (movie.platformUrl) window.open(movie.platformUrl, "_blank");
+    if (movie.platform_url) {
+      window.open(movie.platform_url, "_blank");
+    } else {
+      alert("Watch link not available yet.");
+    }
   };
 
- const toggleWishlist = async (e) => {
-  e.stopPropagation();
-  const user = JSON.parse(localStorage.getItem("cinehub-user"));
-  if (!user) {
-    window.dispatchEvent(new Event("open-login"));
-    return;
-  }
-  try {
-    if (wishlisted) {
-      // Find the wishlist entry and delete it
-      const res = await API.get("/movies/wishlist/");
-      const items = res.data.results || res.data;
-      const entry = items.find(w => w.movie.id === movie.id);
-      if (entry) {
-        await API.delete(`/movies/wishlist/${entry.id}/`);
-      }
-      setWishlisted(false);
-    } else {
-      await API.post("/movies/wishlist/", { movie_id: movie.id });
-      setWishlisted(true);
+  const toggleWishlist = async (e) => {
+    e.stopPropagation();
+    const user = JSON.parse(localStorage.getItem("cinehub-user"));
+    if (!user) {
+      window.dispatchEvent(new Event("open-login"));
+      return;
     }
-  } catch (err) {
-    console.error("Wishlist error", err);
-  }
-};
+    try {
+      if (wishlisted) {
+        // Find the wishlist entry and delete it
+        const res = await API.get("/movies/wishlist/");
+        const items = res.data.results || res.data;
+        const entry = items.find(w => w.movie.id === movie.id);
+        if (entry) {
+          await API.delete(`/movies/wishlist/${entry.id}/`);
+        }
+        setWishlisted(false);
+      } else {
+        await API.post("/movies/wishlist/", { movie_id: movie.id });
+        setWishlisted(true);
+      }
+    } catch (err) {
+      console.error("Wishlist error", err);
+    }
+  };
 
   const posterUrl = movie.poster?.startsWith("http")
     ? movie.poster
-    : `http://127.0.0.1:8000${movie.poster}`;
+    : `${BACKEND_URL}$${movie.poster}`;
 
   return (
     <div className="movie-card" onClick={() => navigate(`/movies/${movie.id}`)}>

@@ -72,7 +72,7 @@ export default function FoodOrder({ onFoodSelect }) {
         {filteredItems.map(item => {
           const qty = cart[item.id]?.qty || 0;
           const imageUrl = item.image
-            ? (item.image.startsWith("http") ? item.image : `http://127.0.0.1:8000${item.image}`)
+            ? (item.image.startsWith("http") ? item.image : `${BACKEND_URL}$${item.image}`)
             : null;
 
           return (

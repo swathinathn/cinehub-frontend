@@ -1,13 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 import API from "../utils/axios";
 import MovieCard from "../components/MovieCard";
+
+import "./wishlist.css";
 
 export default function Wishlist() {
   const [wishlist, setWishlist] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [removingId, setRemovingId] = useState(null);
+
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("cinehub-user"));
+
+  const user = (() => {
+    try {
+      return JSON.parse(localStorage.getItem("cinehub-user"));
+    } catch {
+      return null;
+    }
+  })();
 
   useEffect(() => {
     const fetchWishlist = async () => {
@@ -20,70 +32,176 @@ export default function Wishlist() {
         setLoading(false);
       }
     };
-    if (user) fetchWishlist();
-    else setLoading(false);
+
+    if (user) {
+      fetchWishlist();
+    } else {
+      setLoading(false);
+    }
   }, []);
 
   const removeFromWishlist = async (id) => {
     try {
+      setRemovingId(id);
+
       await API.delete(`/movies/wishlist/${id}/`);
-      setWishlist(prev => prev.filter(w => w.id !== id));
+
+      setWishlist((prev) =>
+        prev.filter((item) => item.id !== id)
+      );
     } catch (err) {
+      console.error("Failed to remove movie", err);
       alert("Failed to remove from wishlist.");
+    } finally {
+      setRemovingId(null);
     }
   };
 
-  if (!user) return (
-    <div style={{ color: "#fff", textAlign: "center", marginTop: "100px" }}>
-      <h2>Please login to view your wishlist</h2>
-    </div>
-  );
+  // LOGIN REQUIRED
 
-  if (loading) return (
-    <div style={{ color: "#fff", textAlign: "center", marginTop: "100px" }}>
-      Loading wishlist...
-    </div>
-  );
+  if (!user) {
+    return (
+      <div className="wishlist-page">
+        <div className="wishlist-message-card">
+          <div className="wishlist-message-icon">🔒</div>
 
-  if (wishlist.length === 0) return (
-    <div style={{ color: "#fff", textAlign: "center", marginTop: "100px" }}>
-      <h2>❤️ Your Wishlist is Empty</h2>
-      <p style={{ color: "#555", marginTop: "10px" }}>Add movies you love by clicking the ❤️ button!</p>
-      <button
-        onClick={() => navigate("/movies")}
-        style={{
-          marginTop: "20px", background: "#f84464", color: "#fff",
-          border: "none", padding: "12px 28px", borderRadius: "10px",
-          cursor: "pointer", fontWeight: 700
-        }}
-      >
-        Browse Movies
-      </button>
-    </div>
-  );
+          <h2>Login Required</h2>
+
+          <p>
+            Please login to access your personal movie wishlist.
+          </p>
+
+          <button onClick={() => navigate("/login")}>
+            Login Now →
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // LOADING
+
+  if (loading) {
+    return (
+      <div className="wishlist-page">
+        <div className="wishlist-loading">
+          <div className="wishlist-spinner"></div>
+          <p>Loading your wishlist...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // EMPTY WISHLIST
+
+  if (wishlist.length === 0) {
+    return (
+      <div className="wishlist-page">
+        <div className="wishlist-empty">
+
+          <div className="wishlist-empty-icon">
+            ❤️
+          </div>
+
+          <h2>Your Wishlist is Empty</h2>
+
+          <p>
+            Your favourite movies deserve a place here.
+            Start exploring and save the movies you love!
+          </p>
+
+          <button
+            className="wishlist-browse-btn"
+            onClick={() => navigate("/movies")}
+          >
+            🎬 Explore Movies
+          </button>
+
+        </div>
+      </div>
+    );
+  }
+
+  // WISHLIST PAGE
 
   return (
-    <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "40px 20px" }}>
-      <h2 style={{ color: "#fff", marginBottom: "24px" }}>❤️ My Wishlist ({wishlist.length})</h2>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(170px, 1fr))", gap: "20px" }}>
-        {wishlist.map((item) => (
-          <div key={item.id} style={{ position: "relative" }}>
-            <MovieCard movie={item.movie} />
-            <button
-              onClick={() => removeFromWishlist(item.id)}
-              style={{
-                position: "absolute", top: "8px", left: "8px",
-                background: "rgba(248,68,100,0.9)", color: "#fff",
-                border: "none", borderRadius: "6px", padding: "4px 8px",
-                fontSize: "11px", fontWeight: 700, cursor: "pointer",
-                zIndex: 10
-              }}
-            >
-              ❌ Remove
-            </button>
+    <div className="wishlist-page">
+
+      <div className="wishlist-container">
+
+        {/* PAGE HEADER */}
+
+        <div className="wishlist-header">
+
+          <div>
+            <span className="wishlist-eyebrow">
+              YOUR PERSONAL COLLECTION
+            </span>
+
+            <h1>
+              My <span>Wishlist</span> ❤️
+            </h1>
+
+            <p>
+              All your favourite movies, together in one place.
+            </p>
           </div>
-        ))}
+
+          <div className="wishlist-count">
+            <span>{wishlist.length}</span>
+            <small>
+              {wishlist.length === 1 ? "Movie Saved" : "Movies Saved"}
+            </small>
+          </div>
+
+        </div>
+
+        {/* MOVIE GRID */}
+
+        <div className="wishlist-grid">
+
+          {wishlist.map((item) => (
+            <div
+              key={item.id}
+              className="wishlist-movie"
+            >
+
+              <MovieCard movie={item.movie} />
+
+              <button
+                className="wishlist-remove-btn"
+                onClick={() => removeFromWishlist(item.id)}
+                disabled={removingId === item.id}
+                title="Remove from wishlist"
+              >
+                {removingId === item.id ? (
+                  "Removing..."
+                ) : (
+                  <>
+                    <span>♥</span> Remove
+                  </>
+                )}
+              </button>
+
+            </div>
+          ))}
+
+        </div>
+
+        {/* BOTTOM MESSAGE */}
+
+        <div className="wishlist-footer">
+          <p>
+            ❤️ Keep discovering movies you'll love.
+          </p>
+
+          <button onClick={() => navigate("/movies")}>
+            Discover More Movies →
+          </button>
+        </div>
+
       </div>
+
     </div>
   );
 }

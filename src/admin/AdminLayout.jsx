@@ -25,7 +25,10 @@ export default function AdminLayout() {
         <Link to="/admin/bookings" style={linkStyle}>🎟️ Bookings</Link>
         <Link to="/admin/users" style={linkStyle}>👥 Users</Link>
         <Link to="/admin/showtimes" style={linkStyle}>🕐 Showtimes</Link>
-
+        <Link to="/admin/theatres" style={linkStyle}>🏢 Theatres</Link>
+        <Link to="/admin/genres" style={linkStyle}>🎭 Genres</Link>
+        <Link to="/admin/cast" style={linkStyle}>🌟 Cast & Crew</Link>
+        <Link to="/admin/food" style={linkStyle}>🍿 Food Items</Link>
         <button onClick={handleLogout} style={{
           marginTop: "auto", background: "#e50914", color: "#fff",
           border: "none", padding: "10px", borderRadius: "8px", cursor: "pointer"
